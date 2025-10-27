@@ -15,16 +15,12 @@ const FetchItems = () => {
 
     dispatch(fetchStatusActions.markFetchingStarted());
     fetch(`${import.meta.env.VITE_API_URL || 'https://myntra-clone-una5.onrender.com'}/items`, { signal })
-    .then((res) => res.json())
-    .then(({ items }) => {
-      dispatch(fetchStatusActions.markFetchDone());
-      dispatch(fetchStatusActions.markFetchingFinished());
-      dispatch(itemsActions.addInitialItems(items)); // Fixed: removed [0]
-    })
-    .catch((error) => {
-      console.error('Fetch error:', error);
-      dispatch(fetchStatusActions.markFetchingFinished());
-    });
+      .then((res) => res.json())
+      .then(({ items }) => {
+        dispatch(fetchStatusActions.markFetchDone());
+        dispatch(fetchStatusActions.markFetchingFinished());
+        dispatch(itemsActions.addInitialItems(items[0]));
+      });
 
     return () => {
       controller.abort();
